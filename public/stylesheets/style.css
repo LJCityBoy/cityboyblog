@@ -1,0 +1,27 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+.error-message{
+  color: red !important;
+}
+/*警告*/
+.mywaring{
+  padding: 0px;
+  margin: 0px;
+  text-align: left;
+
+}
+.mywaring p{
+  padding-left: 5px;
+}
+
+/*index*/
+.hero-unit{
+  padding: 20px 15px 25px 15px;
+  background-color: #d6d6d6;
+  border-radius: 3px;
+}

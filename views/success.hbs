@@ -1,0 +1,24 @@
+
+<h1>{{message}}</h1>
+<p class="">将在 <span id="miao">5</span> 秒后返回 <a id="Ahref" href="/login"><span>{{page}}</span></a></p>
+
+<script>
+    (function () {
+        var t = 5;
+        var time = setInterval(function () {
+            t--;
+            $("#miao").text(t);
+
+            if (t<=0){
+
+                clearInterval(time);
+                $("#Ahref span").trigger('click');
+
+            }
+        },1000);
+        $("#Ahref").click(function () {
+            clearInterval(time);
+        }) ;
+    })();
+
+</script>
