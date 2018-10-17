@@ -14,8 +14,14 @@
             <a class="navbar-brand" href="/">CityBoyBlog</a>
         </div>
         <ul class="nav navbar-nav">
-            <li><a href="/reg"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
-            <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+            {{#if user }}
+                <li><a><span class="glyphicon glyphicon-user"></span> 当前用户：{{user.name}}</a></li>
+                <li><a href="/logout"><span class="glyphicon glyphicon-off"></span> 退出</a></li>
+            {{else}}
+                <li><a href="/reg"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+                <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+            {{/if}}
+
         </ul>
     </div>
 </nav>
