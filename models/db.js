@@ -8,7 +8,7 @@ function connectDb(callback) {
         if (err) {
             console.log("数据库连接失败！");
             return;
-        };
+        }
         console.log('数据库已创建');
         callback(db);
         // db.close();
@@ -19,7 +19,7 @@ function creatCollection(DB,collectionname){
     DB.createCollection(collectionname,function (err,res) {
         if (err) {
             console.log("集合创建失败，或者已经存在！");
-        };
+        }
         console.log("创建集合！");
     })
 }
@@ -47,6 +47,8 @@ exports.insertOne = function (dbname,collectionname,json,callback) {
         if (collection == null){
             creatCollection(DB,collectionname);
         } else {
+            let date = Date();
+            json.date = date.split("GMT")[0];
             DB.collection(collectionname).insertOne(json,callback);
         }
         db.close();

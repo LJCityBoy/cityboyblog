@@ -6,6 +6,7 @@
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
             <li data-target="#myCarousel" data-slide-to="1"></li>
             <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="3"></li>
         </ol>
         <!-- 轮播（Carousel）项目 -->
         <div class="carousel-inner" style="height: 260px;width: 100%">
@@ -13,10 +14,13 @@
                 <img src="/images/1.jpg" alt="First slide">
             </div>
             <div class="item">
-                <img src="/images/1.jpg" alt="Second slide">
+                <img src="/images/2.jpg" alt="Second slide">
             </div>
             <div class="item">
-                <img src="/images/1.jpg" alt="Third slide">
+                <img src="/images/3.jpg" alt="Third slide">
+            </div>
+            <div class="item">
+                <img src="/images/4.png" alt="Third slide">
             </div>
         </div>
         <!-- 轮播（Carousel）导航 -->
@@ -40,31 +44,20 @@
     </div>
 {{/if }}
 
+{{#if essays}}
     <div class="row">
-        <div class="col-sm-4">
-            <h2>Corbo say</h2>
-            <p>东风破早梅 向暖一枝开 冰雪无人见 春从天上来</p>
-        </div>
-        <div class="col-sm-4">
-            <h2>Davi say</h2>
-            <p>
-                Open Chinese Convert(OpenCC)是一个开源的中文简繁转换项目，
-                致力于制作高质量的基于统计预料的简繁转换词库。 还提供函数库
-                (libopencc)、命令行简繁转换工具、人工校对工具、词典生成程序、
-                在 线转换服务及图形用户界面。
-            </p>
-        </div>
-        <div class="col-sm-4">
-            <h2>蒋哥说</h2>
-            <p>
-                中州韵输入法引擎 / Rime Input Method Engine 取意历史上通行
-                的中州韵， 愿写就一部汇集音韵学智慧 的输入法经典之作。 项目网
-                站设在 http://code.google.com/p/rimeime/ 创造应用价值是一
-                方面，更要 坚持对好技术的追求，希望能写出灵动而易于扩展的代码，
-                使其成为一款个性十足的开源输入法。
-            </p>
-        </div>
+        {{#each essays}}
+
+            <div class="col-sm-4">
+                <h2>{{user}}：</h2>
+                <p>{{contents}}</p>
+                <i>{{date}}</i>
+            </div>
+
+        {{/each}}
     </div>
+{{/if}}
+
 
 
 

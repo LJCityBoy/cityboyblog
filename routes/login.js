@@ -8,36 +8,41 @@ router.get('/', function(req, res, next) {
 });
 router.post('/',function (req,res,next) {
     var username=req.body.username;
-
-
-    if (username == null || req.body.password == null){
+    console.log("jjjjjj" + username);
+    if ( req.body.password == 0 || username.length == 0 ){
         res.render('login',{title:'登录',message:"用户名或者密码不能为空！"});
         return;
     } else {
         //数据库中查找是否有该用户
         var DB = require('../models/db');
          DB.findOne("CityBoyBlog","userCollection",{name:username},function (err,result) {
+             if (err) {
+                 res.render('login',{title:'登录',message:"登录失败！"});
+             }
              if (result.length==1){//有该用户
                  //判断密码是否正确
                  //生成口令散列
                  var password = md5(req.body.password);
                  if (result[0].password == password ){
-                     req.session.user = {name:username};
-                     res.render('',{title:"首页",message:"登录成功！",page:"首页。",pagUrl:"/",user:req.session.user});
-                     return;
+                     DB.findOne("CityBoyBlog","essayCollection",{},function (error,result) {
+                         req.session.user = {name:username};
+                         res.render('',{
+                             title:"首页",
+                             message:"登录成功！",
+                             page:"首页。",
+                             pagUrl:"/",
+                             user:req.session.user,
+                             essays:result.reverse()
+                         });
+                     });
                  } else {
                      res.render('login',{title:'登录',message:"密码错误！"});
                  }
-                 return;
              } else {
                  res.render('login',{title:'登录',message:"登录失败！该用户不存在！"});
-                 return;
              }
          })
     }
-
-
-
 });
 
 module.exports = router;
