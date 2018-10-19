@@ -1,43 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
     <title>{{title}}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
     <script src="/javascripts/jquery-3.3.1.min.js"></script>
     <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/three.js"></script>
+    <script src="/javascripts/OrbitControls.js"></script>
 </head>
 <body>
+
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#example-navbar-collapse">
+                <span class="sr-only"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a class="navbar-brand" href="/">CityBoyBlog</a>
         </div>
-        <ul class="nav navbar-nav">
-            {{#if user }}
-                <li><a><span class="glyphicon glyphicon-user"></span> 当前用户：{{user.name}}</a></li>
-                <li><a href="/logout"><span class="glyphicon glyphicon-off"></span> 退出</a></li>
-            {{else}}
-                <li><a href="/reg"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
-                <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
-            {{/if}}
-
-        </ul>
-    {{#if user }}
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="/post"><span class="glyphicon glyphicon-pencil"></span>发表文章 </a></li>
-        </ul>
-    {{/if}}
+        <div class="collapse navbar-collapse" id="example-navbar-collapse">
+            <ul class="nav navbar-nav">
+                {{#if user }}
+                    <li><a><span class="glyphicon glyphicon-user"></span> 当前用户：{{user.name}}</a></li>
+                    <li><a href="/logout"><span class="glyphicon glyphicon-off"></span> 退出</a></li>
+                {{else}}
+                    <li><a href="/reg"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+                    <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+                {{/if}}
+                {{#if user }}
+                    <!--<ul class="nav navbar-nav navbar-right">-->
+                    <li><a href="/post"><span class="glyphicon glyphicon-pencil"></span> 发表文章</a></li>
+                    <!--</ul>-->
+                {{/if}}
+            </ul>
+        </div>
     </div>
 </nav>
 
-<div class="container">
-    {{{body}}}
-    <hr />
-    <footer>
-        <p><a href="http://news.baidu.com" target="_blank">CityBoy</a> 2018</p>
-    </footer>
-</div>
+    <div class="container">
+        {{{body}}}
+        <hr />
+        <footer>
+            <p><a href="http://news.baidu.com" target="_blank">CityBoy</a> 2018</p>
+        </footer>
+    </div>
 
 </body>
 </html>

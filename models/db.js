@@ -1,6 +1,6 @@
 
 var MongoClient = require('mongodb').MongoClient;
-var dbUrl = "mongodb://localhost:27017/CityBoyBlog";
+var dbUrl = "mongodb://127.0.0.1:27017/CityBoyBlog";
 
 function connectDb(callback) {
 

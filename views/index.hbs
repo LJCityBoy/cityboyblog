@@ -1,4 +1,5 @@
 
+
 {{#if user }}
     <div id="myCarousel" class="carousel slide">
         <!-- 轮播（Carousel）指标 -->
@@ -10,8 +11,8 @@
         </ol>
         <!-- 轮播（Carousel）项目 -->
         <div class="carousel-inner" style="height: 260px;width: 100%">
-            <div class="item active">
-                <img src="/images/1.jpg" alt="First slide">
+            <div class="item active" id="three">
+                <!--<img src="/images/1.jpg" alt="First slide">-->
             </div>
             <div class="item">
                 <img src="/images/2.jpg" alt="Second slide">
@@ -33,6 +34,7 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+    <script src="/javascripts/background.js"></script>
 {{else}}
     <div class="hero-unit">
         <h1>欢迎来到 CityBoyBlog</h1>
@@ -47,13 +49,11 @@
 {{#if essays}}
     <div class="row">
         {{#each essays}}
-
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-md-6 col-lg-4">
                 <h2>{{user}}：</h2>
                 <p>{{contents}}</p>
                 <i>{{date}}</i>
             </div>
-
         {{/each}}
     </div>
 {{/if}}
