@@ -4,8 +4,8 @@
     //
     var scene,renderer,camera,light,controls,div;
     var auxiliary;//辅助坐标系
-
-
+    let width = window.innerWidth - 40;
+    let height = window.innerHeight * 0.42;
 
     //程序入口
     draw();
@@ -17,19 +17,17 @@
         //scene 场景
         scene = new THREE.Scene();
         //相机
-        camera = new THREE.PerspectiveCamera(75,window.innerWidth/250,100,20000*10);
-        camera.position.set(0,0,150);
-
+        camera = new THREE.PerspectiveCamera(45,width/height,100,20000);
+        camera.position.set(0,0,200);
 
 
 
         //渲染器
         renderer = new THREE.WebGLRenderer({antialias: true});
         renderer.setClearColor(0xf6f6f6);//设置背景颜色
-        renderer.setSize(window.innerWidth,250);
+        renderer.setSize(width,height);
         document.getElementById("three").appendChild(renderer.domElement);
-        // $("#three").appendChild(renderer.domElement);
-        // document.body.appendChild(renderer.domElement);//加到控制器中
+
 
         //添加光源
         scene.add(new THREE.AmbientLight(0xffffff));
@@ -39,11 +37,6 @@
         light.position.set(1, 1, 1);
         // scene.add(light);
 
-        //辅助坐标系
-        //轴辅助 （每一个轴的长度）
-        // auxiliary = new THREE.AxesHelper(100);
-        // auxiliary.z = -100;
-        // scene.add(auxiliary);
     }
 
     /**
@@ -62,7 +55,7 @@
         //是否可以缩放
         controls.enableZoom = false;
         //是否自动旋转
-        controls.autoRotate = true;
+        controls.autoRotate = false;
         controls.autoRotateSpeed = 0.2;
         //设置相机距离原点的最远距离
         controls.minDistance = 20;
@@ -78,9 +71,9 @@
      * 适应窗口变化
      */
     function onWindowResize() {
-        camera.aspect = window.innerWidth / 250;
+        camera.aspect = width / height;
         camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, 250);
+        renderer.setSize(width, height);
 
     }
 
@@ -108,17 +101,42 @@
      * 画模型
      */
     function initObj() {
+        var loader = new THREE.TextureLoader();
+        var groundTexture = loader.load( './images/grasslight-big.jpg' );
+        groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
+        groundTexture.repeat.set( 25, 25 );
+        groundTexture.anisotropy = 16;
+        var groundMaterial = new THREE.MeshLambertMaterial( { map: groundTexture } );
+        var pmesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 20000, 20000 ), groundMaterial );
+        pmesh.position.y = - 350;
+        pmesh.rotation.x = - Math.PI / 2;
+        pmesh.receiveShadow = true;
+        scene.add( pmesh );
 
-        //声明一个球体
-        var geometry = new THREE.SphereBufferGeometry( 500, 60, 40 );
-        // 反转X轴上的几何图形，使所有的面点向内。
-        geometry.scale( - 1, 1, 1 );
-        //声明球体纹理
-        var material = new THREE.MeshBasicMaterial( {
-            map: new THREE.TextureLoader().load( '../images/7.jpg' ) //加载一整张纹理图片
-        } );
-        mesh = new THREE.Mesh( geometry, material );
-        scene.add( mesh );
+
+       let box = new THREE.BoxGeometry(120,100,80);
+        //加载六个面的纹理贴图
+        var texture1 = THREE.ImageUtils.loadTexture("./images/1.jpg");
+        var texture2= THREE.ImageUtils.loadTexture("./images/2.jpg");
+        var texture3 = THREE.ImageUtils.loadTexture("./images/3.jpg");
+        var texture4= THREE.ImageUtils.loadTexture("./images/4.png");
+        var texture5 = THREE.ImageUtils.loadTexture("./images/5.jpg");
+        var texture6 = THREE.ImageUtils.loadTexture("./images/6.jpg");
+        var materialArr=[
+            //纹理对象赋值给6个材质对象
+            new THREE.MeshPhongMaterial({map:texture1}),
+            new THREE.MeshPhongMaterial({map:texture2}),
+            new THREE.MeshPhongMaterial({map:texture3}),
+            new THREE.MeshPhongMaterial({map:texture4}),
+            new THREE.MeshPhongMaterial({map:texture5}),
+            new THREE.MeshPhongMaterial({map:texture6})
+        ];
+        //6个材质对象组成的数组赋值给MeshFaceMaterial构造函数
+        var facematerial=new THREE.MeshFaceMaterial(materialArr);
+       let mesh = new THREE.Mesh(box,facematerial);
+
+       scene.add(mesh);
+
 
      }
 })();

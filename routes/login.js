@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 });
 router.post('/',function (req,res,next) {
     var username=req.body.username;
-    console.log("jjjjjj" + username);
+    // console.log("jjjjjj" + username);
     if ( req.body.password == 0 || username.length == 0 ){
         res.render('login',{title:'登录',message:"用户名或者密码不能为空！"});
         return;
