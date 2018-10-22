@@ -1,5 +1,4 @@
 
-// ;(function () {
     var pinsFormation = [];
     var pins = [ 6 ];
     pinsFormation.push( pins );
@@ -23,12 +22,12 @@
     var camera, scene, renderer;
     var sphere;
     var object;
-    let window_W = window.innerWidth-80;
+    let window_W = window.innerWidth  ;
     let window_H = window.innerHeight-65;
     init();
     animate();
     function init() {
-        container = document.getElementById( 'container' );
+        container = document.getElementById( 'three-container' );
         // document.body.appendChild( container );
         // scene
         scene = new THREE.Scene();
@@ -174,7 +173,7 @@
         sphere.position.copy( ballPosition );
         renderer.render( scene, camera );
     }
-// })();
+
 
 
 

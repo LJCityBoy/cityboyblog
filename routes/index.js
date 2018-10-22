@@ -9,6 +9,7 @@ router.get('/', function(req, res, next) {
             return false;
         } else {
             if (req.session.user != null) {
+
                 res.render('index', {title: '首页', user: req.session.user,essays:result.reverse()});
             } else {
                 res.render('index', {title: '首页',essays:result.reverse()});

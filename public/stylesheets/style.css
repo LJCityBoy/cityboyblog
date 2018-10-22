@@ -33,14 +33,14 @@ a {
   float: right !important;
 }
 
-#container{
+#three-container{
   display: block;
-  margin-right: 20px;
-  margin-left: 20px;
+  overflow: hidden;
 
 }
 #three{
   display: block;
+  overflow: hidden;
 
 
 }

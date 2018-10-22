@@ -4,8 +4,10 @@
     //
     var scene,renderer,camera,light,controls,div;
     var auxiliary;//辅助坐标系
-    let width = window.innerWidth - 40;
+    let width = window.innerWidth;
     let height = window.innerHeight * 0.42;
+    let obj;//场景中的立方体
+    let mouse = new THREE.Vector2();//用于记录鼠标点击的坐标
 
     //程序入口
     draw();
@@ -35,7 +37,7 @@
         //添加平行光，平行光可以看做太阳光
         light = new THREE.DirectionalLight(0xffffff);
         light.position.set(1, 1, 1);
-        // scene.add(light);
+        scene.add(light);
 
     }
 
@@ -84,6 +86,7 @@
         //更新控制器
         controls.update();
         renderer.render(scene,camera);
+        // obj.rotation.y += 0.005;
         requestAnimationFrame(animate);
     }
 
@@ -114,6 +117,7 @@
         scene.add( pmesh );
 
 
+
        let box = new THREE.BoxGeometry(120,100,80);
         //加载六个面的纹理贴图
         var texture1 = THREE.ImageUtils.loadTexture("./images/1.jpg");
@@ -134,9 +138,105 @@
         //6个材质对象组成的数组赋值给MeshFaceMaterial构造函数
         var facematerial=new THREE.MeshFaceMaterial(materialArr);
        let mesh = new THREE.Mesh(box,facematerial);
-
+       // mesh.rotateY(Math.PI * -0.2);
+       mesh.name = "head";
        scene.add(mesh);
+       obj = mesh;
 
 
-     }
+       var threeDiv = document.getElementById("three");
+       //电脑端方法
+        threeDiv.addEventListener("click",pickup);
+
+        //手机端方法
+        let tucStar;
+        threeDiv.addEventListener("touchstart",function (event) {
+            if (event.touches){//如果是手机端
+                // alert("start");
+                tucStar = new Date();
+            }
+        });
+        threeDiv.addEventListener("touchend",pickup);
+
+        function pickup(event) {
+
+            var Sx = event.clientX;//鼠标单击位置横坐标
+            var Sy = event.clientY;//鼠标单击位置纵坐标
+            //点击事件适配手机端
+            if (event.touches){//如果是手机端
+                // console.log(event);
+                // alert(new Date() - tucStar);
+                if ((new Date() - tucStar) > 500){//判断是拖拽还是点击
+                    return;
+                }else {
+                    Sx = event.changedTouches[0].clientX ;
+                    Sy = event.changedTouches[0].clientY ;
+                }
+            }
+            //屏幕坐标转标准设备坐标
+            let x = ( Sx / width ) * 2 - 1;//标准设备横坐标
+            let y = -( Sy / width ) * 2 + 1;//标准设备纵坐标
+            let standardVector  = new THREE.Vector3(x, y, 0.5);//标准设备坐标
+            //标准设备坐标转世界坐标
+            let worldVector = standardVector.unproject(camera);
+            //射线投射方向单位向量(worldVector坐标减相机位置坐标)
+            let ray = worldVector.sub(camera.position).normalize();
+            //创建射线投射器对象
+            let raycaster = new THREE.Raycaster(camera.position, ray);
+            //返回射线选中的对象
+            let intersects = raycaster.intersectObjects([obj]);
+
+            if (intersects.length > 0) {
+                // console.log(intersects[0].face.a);
+                let face = isFace(intersects[0].face);
+                let url = [
+                    "http://www.zkits.cn",
+                    "http://news.baidu.com",
+                    "https://www.baidu.com",
+                    "https://www.hao123.com",
+                    "https://map.baidu.com",
+                    "https://tieba.baidu.com/index.html"
+                ];
+
+                window.open(url[face]);
+                // window.location.href = url[face];
+            }
+            
+            function isFace(f) {
+                let faceArr = [
+                    [{a:5, b:7, c:0},{a:7, b:2, c:0}],//正面
+                    [{a:2, b:3, c:1},{a:0, b:2, c:1}],//右面
+                    [{a:3, b:6, c:4},{a:1, b:3, c:4}],//背面
+                    [{a:4, b:6, c:5},{a:6, b:7, c:5}],//左面
+                    [{a:4, b:5, c:1},{a:5, b:0, c:1}],//顶面
+                    [{a:7, b:6, c:2},{a:6, b:3, c:2}],//底面
+                ];
+
+                for (let i = 0; i < faceArr.length; i++) {
+                    if ((faceArr[i][0].a === f.a && faceArr[i][0].b === f.b && faceArr[i][0].c === f.c)
+                        ||(faceArr[i][1].a === f.a && faceArr[i][1].b === f.b && faceArr[i][1].c === f.c)){
+                        return i;
+                    }
+                }
+            } 
+
+        }
+
+
+    }
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
